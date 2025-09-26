@@ -1,56 +1,11 @@
 import { createOllama, ollama } from 'ollama-ai-provider';
 // import ollama from 'ollama'
-import { streamText, convertToCoreMessages, CoreMessage, UserContent, generateText } from 'ai';
-import OpenAI from "openai";
-import { Client } from '@gradio/client';
-import { textGeneration } from "@huggingface/inference";
-
+import { streamText, convertToCoreMessages, UserContent } from 'ai';
 
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const HF_TOKEN = process.env.HF_TOKEN;
-const MODEL = "gpt2"
-
-
-// const client = new textGeneration(HF_TOKEN);
-
-async function chat(message: string) {
-
-  // const client = await Client.connect("b1997oct/gpt2");
-  // const result = await client.predict("/chat", {
-  //   message: "Hello!!",
-  //   system_message: "Hello!!",
-  //   max_tokens: 1,
-  //   temperature: 0.1,
-  //   top_p: 0.1,
-  // });
-
-  const result = await textGeneration({
-    accessToken: HF_TOKEN,
-    model: MODEL,
-    inputs: message
-  })
-
-  return result
-
-}
-
-
-export const PUT = async () => {
-
-  try {
-
-    const chatCompletion = await chat("hi")
-
-    return Response.json({ response: chatCompletion })
-  } catch (err: any) {
-    console.error(err);
-    return Response.json({ error: err.message }, { status: 500 });
-  }
-
-}
 
 export async function POST(req: Request) {
   // Destructure request data
